@@ -1,18 +1,22 @@
 function start() {
   main = document.getElementById('main')
   object = {};
-  for (let i = 0; i < localStorage.length; i++) {
-    object[i] = JSON.parse(localStorage.getItem(i));
+  for (key in localStorage) {
+    object[key] = JSON.parse(localStorage.getItem(key));
   }
   console.log(object)
   console.log(localStorage)
   card = document.getElementById('cardarea')
   form = document.getElementById('large-input');
   form.addEventListener('keypress', text);
-  document.getElementById('hello').innerHTML = `こんにちは　${localStorage.length}個のアーカイブがあります`
+  if (localStorage.length == 0) {
+    document.getElementById('hello').innerHTML = `こんにちは　アーカイブが全てなくなりました。`
+  } else {
+    document.getElementById('hello').innerHTML = `こんにちは　${localStorage.length}個のアーカイブがあります`
+  }
 
   for (let i = 0; i < Object.keys(object).length; i++) {
-    fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${object[i].url.match(/[-\w]{11}/)}&format=json`)
+    fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${object[i]?.url.match(/[-\w]{11}/)}&format=json`)
       .then(response => {
         return response.json();
       })
@@ -20,7 +24,8 @@ function start() {
         var title = data.title
         var vtuber = data.author_name
         let status = object[i].status
-        card.insertAdjacentHTML("beforeend", `<div class="flex justify-center p-10">
+        card.insertAdjacentHTML("beforeend",
+          `<div class="flex justify-center p-10">
         <div class="rounded-lg shadow-lg bg-white max-w-sm">
           <a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
             <img class="rounded-t-lg" src="https://img.youtube.com/vi/${object[i].url.match(/[-\w]{11}/)}/maxresdefault.jpg" alt=""/>
@@ -56,8 +61,6 @@ function start() {
       } else {
         document.getElementById('status').innerHTML = '正しいYoutubeURLを入力してください!'
       }
-
-
     }
   }
 }
@@ -78,7 +81,6 @@ getId = function (el) {
   status.status = 'watched'
   let statusdata = JSON.stringify(status);
   localStorage.setItem(el.id, statusdata);
-
 }
 
 
