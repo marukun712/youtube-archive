@@ -24,6 +24,8 @@ function start() {
         var title = data.title
         var vtuber = data.author_name
         let status = object[i].status
+        let date = object[i].day
+
         card.insertAdjacentHTML("beforeend",
           `<div class="flex justify-center p-10">
         <div class="rounded-lg shadow-lg bg-white max-w-sm">
@@ -34,6 +36,10 @@ function start() {
             <h5 class="text-gray-900 ">${title}</h5>
             <p class="text-gray-700 text-base mb-4">
               ${vtuber}
+            </p>
+            <p class="text-gray-700 text-base mb-4">
+            登録日
+            ${date}
             </p>
             <p class="text-gray-500 text-xl  mb-2">
             ${status}
@@ -48,10 +54,15 @@ function start() {
   function text(e) {
     if (e.keyCode === 13) {
       if (form.value.match(/(?<!=\")\b(?:https?):\/\/(?:www\.)?(?:youtube\.com|m.youtube\.com)\/[\w!?/+\-|:=~;.,*&@#$%()'"[\]]+/g)) {
+        var day = new Date();
+        var year = day.getFullYear();
+        var month = day.getMonth();
+        var day = day.getDate();
+        var today = `${year} ${month +1}/${day}`
         let data = {
           'url': form.value,
           'status': 'unwatched',
-          'time': '0'
+          'day': today
         }
         let val = JSON.stringify(data);
         localStorage.setItem(localStorage.length, val);
@@ -70,6 +81,8 @@ getId = function (el) {
   if (el.value == "close") {
     el.value = "open";
     let target = document.getElementById(el.id).parentElement.parentElement
+    target.insertAdjacentHTML("beforeend", `<div class='youtubearea'>`)
+    window.open(`https://www.youtube.com/watch?v=${object[el.id].url.match(/[-\w]{11}/)}`, '_blank')
     target.insertAdjacentHTML("beforeend", `<iframe height='250' width='350' src="https://www.youtube.com/embed/${object[el.id].url.match(/[-\w]{11}/)}" title="YouTube video player" id='youtube${el.id}' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
     document.getElementById(el.id).innerHTML = 'close'
   } else {
