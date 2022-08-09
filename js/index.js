@@ -23,6 +23,7 @@ function start() {
       .then(data => {
         var title = data.title
         var vtuber = data.author_name
+        var channel = data.author_url
         let status = object[i].status
         let date = object[i].day
 
@@ -35,7 +36,7 @@ function start() {
           <div class="p-6">
             <h5 class="text-gray-900 ">${title}</h5>
             <p class="text-gray-700 text-base mb-4">
-              ${vtuber}
+              <a href='${channel}'>${vtuber}</a>
             </p>
             <p class="text-gray-700 text-base mb-4">
             登録日
@@ -58,7 +59,7 @@ function start() {
         var year = day.getFullYear();
         var month = day.getMonth();
         var day = day.getDate();
-        var today = `${year} ${month +1}/${day}`
+        var today = `${year} ${month + 1}/${day}`
         let data = {
           'url': form.value,
           'status': 'unwatched',
