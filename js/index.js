@@ -65,7 +65,7 @@ function start() {
           'day': today
         }
         let val = JSON.stringify(data);
-        localStorage.setItem(localStorage.length, val);
+        localStorage.setItem(localStorage.length ++, val);
         showMenu(true)
         document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
         location.reload();
