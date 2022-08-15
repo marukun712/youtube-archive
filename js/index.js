@@ -83,7 +83,7 @@ function start() {
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
           location.reload();
-        }, 100);
+        }, 200);
 
 
       } else {
