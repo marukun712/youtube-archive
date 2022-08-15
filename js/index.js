@@ -21,9 +21,9 @@ function start() {
         return response.json();
       })
       .then(data => {
-        var title = data.title
-        var vtuber = data.author_name
-        var channel = data.author_url
+        var title = object[i].title
+        var vtuber = object[i].vtuber
+        var channel = object[i].channel
         let status = object[i].status
         let date = object[i].day
         card.insertAdjacentHTML("beforeend",
@@ -59,23 +59,40 @@ function start() {
         var month = day.getMonth();
         var day = day.getDate();
         var today = `${year} ${month + 1}/${day}`
-        let data = {
-          'url': form.value,
-          'status': 'unwatched',
-          'day': today
-        }
-        let val = JSON.stringify(data);
-        localStorage.setItem(localStorage.length ++, val);
-        showMenu(true)
-        document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-        location.reload();
+        fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${form.value.match(/[-\w]{11}/)}&format=json`)
+          .then(response => {
+            return response.json();
+          })
+          .then(data => {
+            datatitle = data.title
+            datavtuber = data.author_name
+            datachannel = data.author_url
+          });
+
+        setTimeout(() => {
+          let data = {
+            'url': form.value,
+            'status': 'unwatched',
+            'day': today,
+            'title': datatitle,
+            'vtuber': datavtuber,
+            'channel': datachannel
+          }
+          let val = JSON.stringify(data);
+          localStorage.setItem(localStorage.length++, val);
+          showMenu(true)
+          document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
+          location.reload();
+        }, 100);
+
+
       } else {
         document.getElementById('status').innerHTML = '正しいYoutubeURLを入力してください!'
       }
     }
   }
 }
-setTimeout(start, 1000)
+setTimeout(start, 100)
 
 getId = function (el) {
   if (el.value == "close") {
