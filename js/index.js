@@ -79,10 +79,9 @@ function start() {
             'channel': datachannel
           }
           let val = JSON.stringify(data);
-          localStorage.setItem(localStorage.length++, val);
+          localStorage.setItem(localStorage.length+1, val);
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-          location.reload();
         }, 200);
 
 
