@@ -82,6 +82,7 @@ function start() {
           localStorage.setItem(localStorage.length+1, val);
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
+          location.reload();
         }, 200);
 
 
