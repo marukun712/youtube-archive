@@ -29,9 +29,7 @@ function start() {
         card.insertAdjacentHTML("beforeend",
           `<div class="flex justify-center p-10">
         <div class="rounded-lg shadow-lg bg-white max-w-sm">
-          <a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
             <img class="rounded-t-lg" src="https://img.youtube.com/vi/${object[i].url.match(/[-\w]{11}/)}/maxresdefault.jpg" alt=""/>
-          </a>
           <div class="p-6">
             <h5 class="text-gray-900 ">${title}</h5>
             <p class="text-gray-700 text-base mb-4">

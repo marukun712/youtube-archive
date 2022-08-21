@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
   <title>Youtube-archives | Youtube配信アーカイブ管理ツール</title>
   <script src="../js/index.js"></script>
   <link rel="stylesheet" href="../css/style.css">
@@ -53,6 +52,24 @@
                   <iframe src="https://vchama.xyz/feeds" class="w-full h-screen"></iframe>
                   <div class="modal-action">
                     <a href="#" class="btn">閉じる</a>
+                  </div>
+                </div>
+              </div>
+
+              <label for="my-modal-6"
+                class="text-black block px-3 py-2 rounded-md text-base font-medium dark:text-white">データリセット</label>
+
+              <input type="checkbox" id="my-modal-6" class="modal-toggle" />
+              <div class="modal modal-bottom sm:modal-middle">
+                <div class="modal-box">
+                  <h3 class="text-black block px-3 py-2 rounded-md text-base font-medium dark:text-white">
+                    アーカイブのデータをすべて削除します。よろしいですか？</h3>
+                  <div class="modal-action">
+                    <button onclick="deletedata();">
+                      <p class="btn" aria-current="page">
+                        削除</p>
+                    </button>
+                    <label for="my-modal-6" class="btn">キャンセル</label>
                   </div>
                 </div>
               </div>
@@ -146,6 +163,11 @@
       menu.classList.toggle("hidden");
       document.getElementById('large-input').value = ''
     };
+
+    function deletedata() {
+      localStorage.clear();
+      location.reload();
+    }
   </script>
 
 </body>
