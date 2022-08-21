@@ -79,10 +79,24 @@ function start() {
             'channel': datachannel
           }
           let val = JSON.stringify(data);
-          localStorage.setItem(localStorage.length+1, val);
+
+          var old = localStorage.getItem(localStorage.length + 1);
+          if (old) {
+            let keys = []
+            for (key in localStorage) {
+              if (localStorage.hasOwnProperty(key)) {
+                keys.push(parseInt(key))
+              }
+            }
+            var maxkey = Math.max(...keys);
+            console.log(keys)
+            console.log(maxkey)
+            localStorage.setItem(maxkey + 1, val);
+          } else {
+            localStorage.setItem(localStorage.length + 1, val);
+          }
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-          location.reload();
         }, 200);
 
 
@@ -98,7 +112,6 @@ getId = function (el) {
   if (el.value == "close") {
     el.value = "open";
     let target = document.getElementById(el.id).parentElement.parentElement
-    target.insertAdjacentHTML("beforeend", `<div class='youtubearea'>`)
     window.open(`https://www.youtube.com/watch?v=${object[el.id].url.match(/[-\w]{11}/)}`, '_blank')
     target.insertAdjacentHTML("beforeend", `<iframe height='250' width='350' src="https://www.youtube.com/embed/${object[el.id].url.match(/[-\w]{11}/)}" title="YouTube video player" id='youtube${el.id}' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
     document.getElementById(el.id).innerHTML = 'close'
