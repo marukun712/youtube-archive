@@ -26,10 +26,11 @@ function start() {
         var channel = object[i].channel
         let status = object[i].status
         let date = object[i].day
+        let image = object[i].image
         card.insertAdjacentHTML("beforeend",
           `<div class="flex justify-center p-10">
         <div class="rounded-lg shadow-lg bg-white max-w-sm">
-            <img class="rounded-t-lg" src="https://img.youtube.com/vi/${object[i].url.match(/[-\w]{11}/)}/maxresdefault.jpg" alt=""/>
+            <img class="rounded-t-lg" src="${image}" alt=""/>
           <div class="p-6">
             <h5 class="text-gray-900 ">${title}</h5>
             <p class="text-gray-700 text-base mb-4">
@@ -67,6 +68,19 @@ function start() {
             datachannel = data.author_url
           });
 
+        var xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            base64 = reader.result;
+          }
+          reader.readAsDataURL(xhr.response);
+        };
+        xhr.open('GET', `https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`);
+        xhr.responseType = 'blob';
+        xhr.send();
+
+
         setTimeout(() => {
           let data = {
             'url': form.value,
@@ -74,7 +88,8 @@ function start() {
             'day': today,
             'title': datatitle,
             'vtuber': datavtuber,
-            'channel': datachannel
+            'channel': datachannel,
+            'image': base64
           }
           let val = JSON.stringify(data);
 
@@ -95,7 +110,6 @@ function start() {
           }
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-          location.reload();
         }, 200);
 
 
