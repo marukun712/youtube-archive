@@ -1,5 +1,4 @@
 function start() {
-  main = document.getElementById('main')
   object = {};
   for (key in localStorage) {
     object[key] = JSON.parse(localStorage.getItem(key));
@@ -67,19 +66,20 @@ function start() {
             datatitle = data.title
             datavtuber = data.author_name
             datachannel = data.author_url
+            thumbnail = `https://cors-proxy.htmldriven.com/?url=${data.thumbnail_url}`
+            fetch(thumbnail, {
+              method: "GET",
+            }).then(response => response.blob())
+              .then(blob => {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                  base64 = reader.result;
+                  console.log(base64)
+                }
+                reader.readAsDataURL(blob);
+              });
           });
 
-        var xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-          var reader = new FileReader();
-          reader.onloadend = function () {
-            base64 = reader.result;
-          }
-          reader.readAsDataURL(xhr.response);
-        };
-        xhr.open('GET', `https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`);
-        xhr.responseType = 'blob';
-        xhr.send();
 
 
         setTimeout(() => {
