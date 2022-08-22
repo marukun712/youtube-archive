@@ -50,6 +50,7 @@ function start() {
       });
   }
 
+
   function text(e) {
     if (e.keyCode === 13) {
       if (form.value.match(/(?<!=\")\b(?:https?):\/\/(?:www\.)?(?:youtube\.com|m.youtube\.com)\/[\w!?/+\-|:=~;.,*&@#$%()'"[\]]+/g)) {
