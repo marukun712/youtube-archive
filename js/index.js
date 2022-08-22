@@ -25,11 +25,10 @@ function start() {
         var channel = object[i].channel
         let status = object[i].status
         let date = object[i].day
-        let image = object[i].image
         card.insertAdjacentHTML("beforeend",
           `<div class="flex justify-center p-10">
         <div class="rounded-lg shadow-lg bg-white max-w-sm">
-            <img class="rounded-t-lg" src="${image}" alt=""/>
+            <img class="rounded-t-lg" src="https://img.youtube.com/vi/${object[i].url.match(/[-\w]{11}/)}/maxresdefault.jpg" alt="" />
           <div class="p-6">
             <h5 class="text-gray-900 ">${title}</h5>
             <p class="text-gray-700 text-base mb-4">
@@ -49,7 +48,6 @@ function start() {
       });
   }
 
-
   function text(e) {
     if (e.keyCode === 13) {
       if (form.value.match(/(?<!=\")\b(?:https?):\/\/(?:www\.)?(?:youtube\.com|m.youtube\.com)\/[\w!?/+\-|:=~;.,*&@#$%()'"[\]]+/g)) {
@@ -66,21 +64,8 @@ function start() {
             datatitle = data.title
             datavtuber = data.author_name
             datachannel = data.author_url
-            thumbnail = `https://cors-proxy.htmldriven.com/?url=${data.thumbnail_url}`
-            fetch(thumbnail, {
-              method: "GET",
-            }).then(response => response.blob())
-              .then(blob => {
-                var reader = new FileReader();
-                reader.onloadend = function () {
-                  base64 = reader.result;
-                  console.log(base64)
-                }
-                reader.readAsDataURL(blob);
-              });
+            thumbnail = data.thumbnail_url
           });
-
-
 
         setTimeout(() => {
           let data = {
@@ -90,7 +75,7 @@ function start() {
             'title': datatitle,
             'vtuber': datavtuber,
             'channel': datachannel,
-            'image': base64
+            'image': thumbnail
           }
           let val = JSON.stringify(data);
 
@@ -111,7 +96,6 @@ function start() {
           }
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-          location.reload();
         }, 200);
 
 
