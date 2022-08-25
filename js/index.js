@@ -25,10 +25,12 @@ function start() {
         var channel = object[i].channel
         let status = object[i].status
         let date = object[i].day
+        let image = object[i].image
+
         card.insertAdjacentHTML("beforeend",
           `<div class="flex justify-center p-10">
         <div class="rounded-lg shadow-lg bg-white max-w-sm">
-            <img class="rounded-t-lg" src="https://img.youtube.com/vi/${object[i].url.match(/[-\w]{11}/)}/maxresdefault.jpg" alt="" />
+            <img class="rounded-t-lg" src="${image}" alt="" />
           <div class="p-6">
             <h5 class="text-gray-900 ">${title}</h5>
             <p class="text-gray-700 text-base mb-4">
@@ -65,18 +67,15 @@ function start() {
             datavtuber = data.author_name
             datachannel = data.author_url
             thumbnail = `https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`
-
             var xhr = new XMLHttpRequest();
             xhr.onload = function () {
               var reader = new FileReader();
               reader.onloadend = function () {
                 base64 = reader.result;
-                console.log(base64)
               }
               reader.readAsDataURL(xhr.response);
             };
             xhr.open('GET', `https://cors-proxy-anywhere-825.herokuapp.com/${thumbnail}`);
-            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
             xhr.responseType = 'blob';
             xhr.send();
           });
@@ -89,7 +88,7 @@ function start() {
             'title': datatitle,
             'vtuber': datavtuber,
             'channel': datachannel,
-            'image': thumbnail
+            'image': base64
           }
           let val = JSON.stringify(data);
 
@@ -110,7 +109,8 @@ function start() {
           }
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-        }, 200);
+          location.reload();
+        }, 600);
 
 
       } else {
