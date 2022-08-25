@@ -64,7 +64,21 @@ function start() {
             datatitle = data.title
             datavtuber = data.author_name
             datachannel = data.author_url
-            thumbnail = data.thumbnail_url
+            thumbnail = `https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`
+
+            var xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+              var reader = new FileReader();
+              reader.onloadend = function () {
+                base64 = reader.result;
+                console.log(base64)
+              }
+              reader.readAsDataURL(xhr.response);
+            };
+            xhr.open('GET', `https://cors-proxy-anywhere-825.herokuapp.com/${thumbnail}`);
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.responseType = 'blob';
+            xhr.send();
           });
 
         setTimeout(() => {
@@ -96,7 +110,6 @@ function start() {
           }
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-          location.reload();
         }, 200);
 
 
