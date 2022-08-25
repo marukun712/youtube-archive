@@ -110,7 +110,7 @@ function start() {
           showMenu(true)
           document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
           location.reload();
-        }, 600);
+        }, 1000);
 
 
       } else {
