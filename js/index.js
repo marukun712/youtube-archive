@@ -66,57 +66,52 @@ function start() {
             datatitle = data.title
             datavtuber = data.author_name
             datachannel = data.author_url
-            thumbnail = `https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`
-            var xhr = new XMLHttpRequest();
-            xhr.onload = function () {
-              var reader = new FileReader();
-              reader.onloadend = function () {
-                base64 = reader.result;
-              }
-              reader.readAsDataURL(xhr.response);
-            };
-            xhr.open('GET', `https://cors-proxy-anywhere-825.herokuapp.com/${thumbnail}`);
-            xhr.responseType = 'blob';
-            xhr.send();
+
+            fetch(`https://cors-proxy-anywhere-825.herokuapp.com/https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`, {
+              method: "GET",
+            }).then(response => response.blob())
+              .then(blob => {
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                  base64 = reader.result;
+                  let data = {
+                    'url': form.value,
+                    'status': 'unwatched',
+                    'day': today,
+                    'title': datatitle,
+                    'vtuber': datavtuber,
+                    'channel': datachannel,
+                    'image': base64
+                  }
+                  let val = JSON.stringify(data);
+
+                  var old = localStorage.getItem(localStorage.length + 1);
+                  if (old) {
+                    let keys = []
+                    for (key in localStorage) {
+                      if (localStorage.hasOwnProperty(key)) {
+                        keys.push(parseInt(key))
+                      }
+                    }
+                    var maxkey = Math.max(...keys);
+                    console.log(keys)
+                    console.log(maxkey)
+                    localStorage.setItem(maxkey + 1, val);
+                  } else {
+                    localStorage.setItem(localStorage.length + 1, val);
+                  }
+                  showMenu(true)
+                  document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
+                  location.reload();
+                }
+                reader.readAsDataURL(blob);
+              });
           });
-
-        setTimeout(() => {
-          let data = {
-            'url': form.value,
-            'status': 'unwatched',
-            'day': today,
-            'title': datatitle,
-            'vtuber': datavtuber,
-            'channel': datachannel,
-            'image': base64
-          }
-          let val = JSON.stringify(data);
-
-          var old = localStorage.getItem(localStorage.length + 1);
-          if (old) {
-            let keys = []
-            for (key in localStorage) {
-              if (localStorage.hasOwnProperty(key)) {
-                keys.push(parseInt(key))
-              }
-            }
-            var maxkey = Math.max(...keys);
-            console.log(keys)
-            console.log(maxkey)
-            localStorage.setItem(maxkey + 1, val);
-          } else {
-            localStorage.setItem(localStorage.length + 1, val);
-          }
-          showMenu(true)
-          document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-          location.reload();
-        }, 1000);
-
-
-      } else {
-        document.getElementById('status').innerHTML = '正しいYoutubeURLを入力してください!'
       }
+    } else {
+      document.getElementById('status').innerHTML = '正しいYoutubeURLを入力してください!'
     }
+
   }
 }
 setTimeout(start, 100)
