@@ -58,55 +58,54 @@ function start() {
         var month = day.getMonth();
         var day = day.getDate();
         var today = `${year} ${month + 1}/${day}`
-        fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${form.value.match(/[-\w]{11}/)}&format=json`)
-          .then(response => {
-            return response.json();
-          })
-          .then(data => {
-            datatitle = data.title
-            datavtuber = data.author_name
-            datachannel = data.author_url
 
-            fetch(`https://cors-proxy-anywhere-825.herokuapp.com/https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`, {
-              method: "GET",
-            }).then(response => response.blob())
-              .then(blob => {
-                var reader = new FileReader();
-                reader.onloadend = function () {
-                  base64 = reader.result;
-                  let data = {
-                    'url': form.value,
-                    'status': 'unwatched',
-                    'day': today,
-                    'title': datatitle,
-                    'vtuber': datavtuber,
-                    'channel': datachannel,
-                    'image': base64
-                  }
-                  let val = JSON.stringify(data);
+        async function get_data() {
+          const res = await fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${form.value.match(/[-\w]{11}/)}&format=json`);
+          const data = await res.json();
+          datatitle = await data.title
+          datavtuber = await data.author_name
+          datachannel = await data.author_url
+          const cors = await fetch(`https://cors-proxy-anywhere-825.herokuapp.com/https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`)
+          const blob = await cors.blob();
+          var reader = new FileReader();
+          reader.onloadend = function () {
+            base64 = reader.result;
+            let data = {
+              'url': form.value,
+              'status': 'unwatched',
+              'day': today,
+              'title': datatitle,
+              'vtuber': datavtuber,
+              'channel': datachannel,
+              'image': base64
+            }
+            let val = JSON.stringify(data);
 
-                  var old = localStorage.getItem(localStorage.length + 1);
-                  if (old) {
-                    let keys = []
-                    for (key in localStorage) {
-                      if (localStorage.hasOwnProperty(key)) {
-                        keys.push(parseInt(key))
-                      }
-                    }
-                    var maxkey = Math.max(...keys);
-                    console.log(keys)
-                    console.log(maxkey)
-                    localStorage.setItem(maxkey + 1, val);
-                  } else {
-                    localStorage.setItem(localStorage.length + 1, val);
-                  }
-                  showMenu(true)
-                  document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
-                  location.reload();
+            var old = localStorage.getItem(localStorage.length + 1);
+            if (old) {
+              let keys = []
+              for (key in localStorage) {
+                if (localStorage.hasOwnProperty(key)) {
+                  keys.push(parseInt(key))
                 }
-                reader.readAsDataURL(blob);
-              });
-          });
+              }
+              var maxkey = Math.max(...keys);
+              console.log(keys)
+              console.log(maxkey)
+              localStorage.setItem(maxkey + 1, val);
+            } else {
+              localStorage.setItem(localStorage.length + 1, val);
+            }
+            showMenu(true)
+            document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
+            location.reload();
+          }
+          reader.readAsDataURL(blob);
+          await function result() {
+
+          }
+        }
+        get_data();
       }
     } else {
       document.getElementById('status').innerHTML = '正しいYoutubeURLを入力してください!'
