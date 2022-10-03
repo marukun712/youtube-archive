@@ -13,8 +13,14 @@ function start() {
   } else {
     document.getElementById('hello').innerHTML = `こんにちは　${localStorage.length}個のアーカイブがあります`
   }
-
-  for (let i = 0; i < Object.keys(object).length; i++) {
+  let keys = []
+  for (key in localStorage) {
+    if (localStorage.hasOwnProperty(key)) {
+      keys.push(parseInt(key))
+    }
+  }
+  var maxkey = Math.max(...keys) + 1
+  for (let i = 0; i < maxkey; i++) {
     fetch(`https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=${object[i]?.url.match(/[-\w]{11}/)}&format=json`)
       .then(response => {
         return response.json();
