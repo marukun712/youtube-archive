@@ -71,7 +71,7 @@ function start() {
           datatitle = await data.title
           datavtuber = await data.author_name
           datachannel = await data.author_url
-          const cors = await fetch(`https://cors-proxy-anywhere-825.herokuapp.com/https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`)
+          const cors = await fetch(`https://cors-proxy-62vy.onrender.com/https://img.youtube.com/vi/${form.value.match(/[-\w]{11}/)}/maxresdefault.jpg`)
           const blob = await cors.blob();
           var reader = new FileReader();
           reader.onloadend = function () {
