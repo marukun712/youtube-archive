@@ -6,7 +6,6 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Youtube-archives | Youtube配信アーカイブ管理ツール</title>
-  <script src="../js/index.js"></script>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/output.css">
   <link rel="icon" href="../img/logo.png">
@@ -72,6 +71,22 @@
                 </div>
               </div>
 
+              <a href="#my-modal-7"
+                class="text-black block px-3 py-2 rounded-md text-base font-medium dark:text-white">エクスポート</a>
+              <div class="modal" id="my-modal-7">
+                <div class="modal-box">
+                  <h3 class="text-black block px-3 py-2 rounded-md text-base font-medium dark:text-white">
+                    このアプリに保存されているアーカイブデータを、json形式でローカルに保存します。</h3>
+                  <div class="modal-action">
+                    <button onclick="exportdata();">
+                      <p class="btn" aria-current="page">
+                        保存</p>
+                    </button>
+                    <a href="#" class="btn">キャンセル</a>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -124,6 +139,23 @@
             </div>
           </div>
         </div>
+
+        <label for="my-modal-5" class="btn modal-button dark:text-white">データエクスポート</label>
+
+        <input type="checkbox" id="my-modal-5" class="modal-toggle" />
+        <div class="modal modal-bottom sm:modal-middle">
+          <div class="modal-box">
+            <h3 class="text-black block px-3 py-2 rounded-md text-base font-medium dark:text-white">
+              このアプリに保存されているアーカイブデータを、json形式でローカルに保存します。</h3>
+            <div class="modal-action">
+              <button onclick="exportdata();">
+                <p class="btn" aria-current="page">
+                  保存</p>
+              </button>
+              <label for="my-modal-4" class="btn">キャンセル</label>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
@@ -153,7 +185,7 @@
 
             <input type="text" id="large-input"
               class="block w-full p-4 text-gray-900 p-5 border border-gray-300 rounded-lg bg-gray-50 sm:text-md focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="urlを入力">
+              placeholder="enterで送信...">
           </div>
           <button onclick="showMenu(true)"
             class="text-gray-800 dark:text-gray-400 absolute top-8 right-8 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-800"
@@ -180,7 +212,18 @@
       localStorage.clear();
       location.reload();
     }
+
+    function exportdata() {
+      let data = JSON.stringify(object);
+      let blob = new Blob([data], { type: 'application/json' });
+      const link = document.createElement('a');
+      link.download = 'export.json'; // ダウンロードファイル名称
+      link.href = URL.createObjectURL(blob); // オブジェクト URL を生成
+      link.click(); // クリックイベントを発生させる
+      URL.revokeObjectURL(link.href); // オブジェクト URL を解放」
+    }
   </script>
+  <script src="../js/index.js"></script>
 
 </body>
 
