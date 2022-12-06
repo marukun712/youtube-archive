@@ -78,6 +78,8 @@ async function get_data(url) {
     localStorage.setItem(url.match(/[-\w]{11}/), val);
     showMenu(true)
     document.getElementById('status').innerHTML = 'アーカイブのURLを追加'
+    location.reload();
+
   }
   reader.readAsDataURL(blob)
 }
