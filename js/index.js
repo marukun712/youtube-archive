@@ -101,11 +101,11 @@ getId = function (el) {
     el.value = "open";
     let target = document.getElementById(el.id).parentElement.parentElement
     window.open(`https://www.youtube.com/watch?v=${el.id}`, '_blank')
-    target.insertAdjacentHTML("beforeend", `<iframe height='250' width='350' src="https://www.youtube.com/embed/${el.id}" title="YouTube video player" id='${el.id}' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
+    target.insertAdjacentHTML("beforeend", `<iframe height='250' width='350' src="https://www.youtube.com/embed/${el.id}" title="YouTube video player" id='Player-${el.id}' frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`)
     document.getElementById(el.id).innerHTML = 'close'
   } else {
     el.value = "close";
-    document.getElementById(`${el.id}`).remove();
+    document.getElementById(`Player-${el.id}`).remove();
     document.getElementById(el.id).innerHTML = 'watch'
   }
   let status = JSON.parse(localStorage.getItem(el.id));
